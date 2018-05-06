@@ -1,5 +1,6 @@
 package ir.sbu.db.Controller;
 
+import com.sun.tools.javadoc.Start;
 import ir.sbu.db.Model.User;
 import ir.sbu.db.Model.UserModel;
 import ir.sbu.db.State.*;
@@ -30,77 +31,72 @@ public class MainController extends TelegramLongPollingBot
                 System.out.println("user message: " + message);
             }
 
-            switch (userState)
-            {
+            switch (userState) {
                 case "null":
-                    if (message.equals("/start"))
-                    {
+                    if (message.equals("/start")) {
                         StartState startState = new StartState(this, chat_id);
                         startState.validate(update);
                     }
                     break;
                 case "start":
-                    if (message.equals("عضویت"))
-                    {
+                    if (message.equals("عضویت")) {
                         Q1State q1State = new Q1State(this, chat_id);
                         q1State.validate(update);
+
+                    } else if (message.equals("ادمین")) {
+                        AdminState adminState = new AdminState(this, chat_id);
+                        adminState.validate(update);
                     }
+
                     break;
+
                 case "q1":
-                    if (message.equals("زن") || message.equals("مرد"))
-                    {
+                    if (message.equals("زن") || message.equals("مرد")) {
                         Q2State q2State = new Q2State(this, chat_id);
                         q2State.validate(update);
                     }
                     break;
                 case "q2":
-                    if (message.matches("-?\\d+(\\.\\d+)?"))
-                    {
+                    if (message.matches("-?\\d+(\\.\\d+)?")) {
                         Q3State q3State = new Q3State(this, chat_id);
                         q3State.validate(update);
                     }
                     break;
                 case "q3":
-                    if (message.matches("-?\\d+(\\.\\d+)?"))
-                    {
+                    if (message.matches("-?\\d+(\\.\\d+)?")) {
                         Q4State q4State = new Q4State(this, chat_id);
                         q4State.validate(update);
                     }
                     break;
                 case "q4":
-                    if (message.matches("-?\\d+(\\.\\d+)?"))
-                    {
+                    if (message.matches("-?\\d+(\\.\\d+)?")) {
                         Q5State q5State = new Q5State(this, chat_id);
                         q5State.validate(update);
                     }
                     break;
                 case "q5":
-                    if (true)
-                    {
+                    if (true) {
                         RequestState requestState = new RequestState(this, chat_id);
                         requestState.validate(update);
                     }
                     break;
                 case "request":
-                    if (message.equals("برنامه غذایی"))
-                    {
+                    if (message.equals("برنامه غذایی")) {
                         FoodPlanState foodPlanState = new FoodPlanState(this, chat_id);
                         foodPlanState.validate(update);
-                    }
-                    else if (message.equals("برنامه ورزشی در خانه"))
-                    {
+                    } else if (message.equals("برنامه ورزشی در خانه")) {
                         WorkoutPlanState workoutPlanState = new WorkoutPlanState(this, chat_id);
                         workoutPlanState.validate(update);
-                    }
-                    else if (message.equals("نکات سلامتی"))
-                    {
+                    } else if (message.equals("نکات سلامتی")) {
                         HealthTipsState healthTipsState = new HealthTipsState(this, chat_id);
                         healthTipsState.validate(update);
-                    }
-                    else if (message.equals("برنامه ورزشی در باشگاه"))
-                    {
+                    } else if (message.equals("برنامه ورزشی در باشگاه")) {
                         GymPlanState gymPlanState = new GymPlanState(this, chat_id);
                         gymPlanState.validate(update);
+                    } else if (message.equals("بازگشت به صفحه اصلی"))
+                    {
+                        StartState startState = new StartState(this, chat_id);
+                        startState.validate(update);
                     }
                     break;
                 case "foodPlan":
@@ -131,6 +127,36 @@ public class MainController extends TelegramLongPollingBot
                         requestState.validate(update);
                     }
                     break;
+                case "admin":
+                    if (message.equals("abcd")) ////injaaaaaaaaaaaaa
+                    {
+                        AddData addData = new AddData(this, chat_id);
+                        addData.validate(update);
+                    }
+                    else
+                    {
+                        AdminState adminState = new AdminState(this, chat_id);
+                        adminState.validate(update);
+                    }
+                    break;
+                case "addData":
+                    if(true)
+                    {
+                        AdminNext adminNext = new AdminNext(this, chat_id);
+                        adminNext.validate(update);
+                    }
+                    break;
+                case "adminNext":
+                    if (message.equals("بله"))
+                    {
+                        AddData addData = new AddData(this, chat_id);
+                        addData.validate(update);
+                    }
+                    else
+                    {
+                        StartState startState = new StartState(this, chat_id);
+                        startState.validate(update);
+                    }
 
 
             }

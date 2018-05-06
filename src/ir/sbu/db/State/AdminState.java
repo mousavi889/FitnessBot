@@ -12,12 +12,12 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RequestState implements BotState
+public class AdminState implements BotState
 {
 
     private long chatId;
     MainController mainController;
-    public RequestState(MainController mainController, long chatId)
+    public AdminState(MainController mainController, long chatId)
     {
         this.chatId = chatId;
         this.mainController = mainController;
@@ -26,11 +26,11 @@ public class RequestState implements BotState
     @Override
     public void validate(Update update)
     {
-        if(update.getMessage().getText().length() < 40)
+        if(update.getMessage().getText().length() < 20)
         {
-            String message = "سرویس مورد نظر خود را انتخاب کنید.";
-            String keyboardMessage = "برنامه غذایی,نکات سلامتی,برنامه ورزشی در خانه,برنامه ورزشی در باشگاه,بازگشت به صفحه اصلی";
-            this.changeState("request");
+            String message = "وارد کردن رمز عبور";
+            String keyboardMessage = "";
+            this.changeState("admin");
             this.response(message, keyboardMessage);
         }
     }
@@ -49,22 +49,7 @@ public class RequestState implements BotState
                 .setChatId(this.chatId)
                 .setText(message);
 
-        // Create ReplyKeyboardMarkup object
-        ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
-        // Create the keyboard (list of keyboard rows)
-        List<KeyboardRow> keyboard = new ArrayList();
-        // Create a keyboard row
-        KeyboardRow row = new KeyboardRow();
-        // Set each button, you can also use KeyboardButton objects if you need something else than text
-        String[] kmessages = keyboardMessage.split(",");
-        for (int i = 0; i < kmessages.length; i++)
-        {
-            row.add(kmessages[i]);
-        }        keyboard.add(row);
-        // Set the keyboard to the markup
-        keyboardMarkup.setKeyboard(keyboard);
-        // Add it to the message
-
+        ReplyKeyboardRemove keyboardMarkup = new ReplyKeyboardRemove();
         sm.setReplyMarkup(keyboardMarkup);
 
         try {

@@ -5,39 +5,34 @@ import ir.sbu.db.Model.User;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RequestState implements BotState
-{
+public class AdminNext implements BotState {
 
     private long chatId;
     MainController mainController;
-    public RequestState(MainController mainController, long chatId)
-    {
+    public AdminNext(MainController mainController, long chatId){
         this.chatId = chatId;
         this.mainController = mainController;
     }
 
     @Override
-    public void validate(Update update)
-    {
-        if(update.getMessage().getText().length() < 40)
+    public void validate(Update update) {
+        if(update.getMessage().getText().length() < 20)
         {
-            String message = "سرویس مورد نظر خود را انتخاب کنید.";
-            String keyboardMessage = "برنامه غذایی,نکات سلامتی,برنامه ورزشی در خانه,برنامه ورزشی در باشگاه,بازگشت به صفحه اصلی";
-            this.changeState("request");
+            String message = "می خواهید ادامه دهید؟";
+            String keyboardMessage = "بله,خیر";
+            this.changeState("adminNext");
             this.response(message, keyboardMessage);
         }
     }
 
     @Override
-    public void changeState(String state)
-    {
+    public void changeState(String state) {
         User user = new User();
         //save state register for user in database !
         user.updateState(this.chatId, state);

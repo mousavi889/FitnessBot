@@ -22,9 +22,9 @@ public class StartState implements BotState {
 
     @Override
     public void validate(Update update) {
-        if(update.getMessage().getText().equals("/start")){
+        if(update.getMessage().getText().length() < 20){
             String message = "بر روی عضویت کلیک کنید";
-            String keyboardMessage = "عضویت";
+            String keyboardMessage = "عضویت,ادمین";
             this.changeState("start");
             this.response(message, keyboardMessage);
         }
@@ -50,8 +50,11 @@ public class StartState implements BotState {
         // Create a keyboard row
         KeyboardRow row = new KeyboardRow();
         // Set each button, you can also use KeyboardButton objects if you need something else than text
-        row.add(keyboardMessage);
-        keyboard.add(row);
+        String[] kmessages = keyboardMessage.split(",");
+        for (int i = 0; i < kmessages.length; i++)
+        {
+            row.add(kmessages[i]);
+        }        keyboard.add(row);
         // Set the keyboard to the markup
         keyboardMarkup.setKeyboard(keyboard);
         // Add it to the message
