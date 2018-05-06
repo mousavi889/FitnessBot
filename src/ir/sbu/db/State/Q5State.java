@@ -54,13 +54,20 @@ public class Q5State implements BotState
         // Create the keyboard (list of keyboard rows)
         List<KeyboardRow> keyboard = new ArrayList();
         // Create a keyboard row
-        KeyboardRow row = new KeyboardRow();
+        KeyboardRow row0 = new KeyboardRow(), row1 = new KeyboardRow();
         // Set each button, you can also use KeyboardButton objects if you need something else than text
+        System.out.println();
         String[] kmessages = keyboardMessage.split(",");
-        for (int i = 0; i < kmessages.length; i++)
+        for (int i = 0; i < kmessages.length / 2; i++)
         {
-            row.add(kmessages[i]);
-        }        keyboard.add(row);
+            row0.add(kmessages[i]);
+        }
+        for (int i = kmessages.length / 2; i < kmessages.length; i++)
+        {
+            row1.add(kmessages[i]);
+        }
+        keyboard.add(row0);
+        keyboard.add(row1);
         // Set the keyboard to the markup
         keyboardMarkup.setKeyboard(keyboard);
         // Add it to the message
