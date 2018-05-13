@@ -1,6 +1,7 @@
 package ir.sbu.db.State;
 
         import ir.sbu.db.Controller.MainController;
+        import ir.sbu.db.Model.HealthTips;
         import ir.sbu.db.Model.User;
         import org.telegram.telegrambots.api.methods.send.SendMessage;
         import org.telegram.telegrambots.api.objects.Update;
@@ -28,7 +29,9 @@ public class HealthTipsState implements BotState
     {
         if(update.getMessage().getText().length()<25)
         {
-            String message = "به سلامتی خود توجه کنید.";
+            HealthTips healthTips = new HealthTips();
+            String tip = healthTips.getTip();
+            String message = tip;
             String keyboardMessage = "اوکی";
             this.changeState("healthTipsPlan");
             this.response(message, keyboardMessage);

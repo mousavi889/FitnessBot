@@ -1,6 +1,7 @@
 package ir.sbu.db.State;
 
 import ir.sbu.db.Controller.MainController;
+import ir.sbu.db.Model.FoodPlan;
 import ir.sbu.db.Model.User;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
@@ -28,7 +29,11 @@ public class FoodPlanState implements BotState
     {
         if(update.getMessage().getText().length()<25)
         {
-            String message = "روزی یه سیب بخور.";
+            FoodPlan foodPlan = new FoodPlan();
+            String plan1 = foodPlan.getPlan1(chatId);
+            String plan2 = foodPlan.getPlan2(chatId);
+            String plan3 = foodPlan.getPlan3(chatId);
+            String message = plan1 + "\n\n" + plan2 + "\n\n" + plan3;
             String keyboardMessage = "اوکی";
             this.changeState("foodPlan");
             this.response(message, keyboardMessage);
