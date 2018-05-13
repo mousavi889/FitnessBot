@@ -28,6 +28,8 @@ public class Q4State implements BotState
     {
         if(update.getMessage().getText().length() < 20)
         {
+            User user = new User();
+            user.updateColumnHeight(Long.parseLong(update.getMessage().getText()) , chatId);
             String message = "سن خود را وارد کنید.";
             String keyboardMessage = "";
             this.changeState("q4");

@@ -28,6 +28,8 @@ public class Q5State implements BotState
     {
         if(update.getMessage().getText().length() < 20)
         {
+            User user = new User();
+            user.updateColumnAge(Long.parseLong(update.getMessage().getText()) , chatId);
             String message = "گروه خونی خود را وارد کنید.";
             String keyboardMessage = "AB,A,B,O";
             this.changeState("q5");

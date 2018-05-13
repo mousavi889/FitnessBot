@@ -14,13 +14,20 @@ public class User {
         Connection dbCon = MysqlHelper.connect();
         Boolean result = false;
         try {
-            String query = "INSERT INTO `User` (`id`,`aliasName`, `state`, `email`) VALUES (?, ?, ?, ?)";
+            String query = "INSERT INTO `User` (`id`, `weight`, `height`, `age`, `gender`, `bloodType`, `state`, `category`, `email` , `aliasName` ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement preparedStatement = dbCon.prepareStatement(query);
             preparedStatement.setLong(1, userModel.getId());
-            preparedStatement.setString(2, userModel.getAliasName());
-            preparedStatement.setString(3, userModel.getState());
-            preparedStatement.setString(4, userModel.getEmail());
+            preparedStatement.setLong(2, userModel.getWeight());
+            preparedStatement.setLong(3, userModel.getHeight());
+            preparedStatement.setLong(4, userModel.getAge());
+            preparedStatement.setString(5, userModel.getGender());
+            preparedStatement.setString(6, userModel.getBloodType());
+            preparedStatement.setString(7, userModel.getState());
+            preparedStatement.setLong(8, userModel.getCategory());
+            preparedStatement.setString(9, userModel.getEmail());
+            preparedStatement.setString(10, userModel.getAliasName());
+
 
             result = preparedStatement.execute();
             dbCon.close();
@@ -56,6 +63,28 @@ public class User {
         return result;
     }
 
+    public static Boolean updateColumnGender( String colValue, long id){
+        Connection dbCon = MysqlHelper.connect();
+        Boolean result = false;
+        try{
+            String query = "UPDATE User SET gender=? WHERE id=?";
+
+            PreparedStatement preparedStatement = dbCon.prepareStatement(query);
+
+            preparedStatement.setString(1, colValue);
+            preparedStatement.setLong(2, id);
+
+            result = (preparedStatement.executeUpdate()>0);
+            dbCon.close();
+            return result;
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return result;
+
+    }
+
     public static Boolean remove(String findaliasName){
         Connection dbCon = MysqlHelper.connect();
         Boolean result = false;
@@ -87,9 +116,9 @@ public class User {
 
             PreparedStatement preparedStatement = dbCon.prepareStatement(query);
             result = preparedStatement.executeQuery(query);
-
+                                   //long id, long weight, long height, long age, String gender, String state, long category
             while (result.next()) {
-                userModelList.add(new UserModel(result.getLong("id"), result.getString("aliasName"), result.getString("state"), result.getString("email")));
+                userModelList.add(new UserModel(result.getLong("id"), result.getLong("weight"), result.getLong("height"), result.getLong("age"), result.getString("gender"), result.getString("bloodType"), result.getString("state"),  result.getLong("height"), result.getString("aliasname"), result.getString("email")));
             }
 
             result.close();
@@ -103,13 +132,111 @@ public class User {
         return userModelList;
     }
 
+    public static Boolean updateColumnAge( long colValue, long id) {
+        Connection dbCon = MysqlHelper.connect();
+        Boolean result = false;
+        try {
+            String query = "UPDATE User SET age=? WHERE id=?";
+
+            PreparedStatement preparedStatement = dbCon.prepareStatement(query);
+
+            preparedStatement.setLong(1, colValue);
+            preparedStatement.setLong(2, id);
+
+            result = (preparedStatement.executeUpdate() > 0);
+            dbCon.close();
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static Boolean updateColumnWeight( long colValue, long id) {
+        Connection dbCon = MysqlHelper.connect();
+        Boolean result = false;
+        try {
+            String query = "UPDATE User SET weight=? WHERE id=?";
+
+            PreparedStatement preparedStatement = dbCon.prepareStatement(query);
+
+            preparedStatement.setLong(1, colValue);
+            preparedStatement.setLong(2, id);
+
+            result = (preparedStatement.executeUpdate() > 0);
+            dbCon.close();
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static Boolean updateColumnHeight( long colValue, long id) {
+        Connection dbCon = MysqlHelper.connect();
+        Boolean result = false;
+        try {
+            String query = "UPDATE User SET height=? WHERE id=?";
+
+            PreparedStatement preparedStatement = dbCon.prepareStatement(query);
+
+            preparedStatement.setLong(1, colValue);
+            preparedStatement.setLong(2, id);
+
+            result = (preparedStatement.executeUpdate() > 0);
+            dbCon.close();
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static Boolean updateColumnBloodType(String bloodType, long id) {
+        Connection dbCon = MysqlHelper.connect();
+        Boolean result = false;
+        try {
+            String query = "UPDATE User SET bloodType=? WHERE id=?";
+
+            PreparedStatement preparedStatement = dbCon.prepareStatement(query);
+
+            preparedStatement.setString(1, bloodType);
+            preparedStatement.setLong(2, id);
+
+            result = (preparedStatement.executeUpdate() > 0);
+            dbCon.close();
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static Boolean updateColumnCategory(long category, long id) {
+        Connection dbCon = MysqlHelper.connect();
+        Boolean result = false;
+        try {
+            String query = "UPDATE User SET category=? WHERE id=?";
+
+            PreparedStatement preparedStatement = dbCon.prepareStatement(query);
+
+            preparedStatement.setLong(1, category);
+            preparedStatement.setLong(2, id);
+
+            result = (preparedStatement.executeUpdate() > 0);
+            dbCon.close();
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 
     public static String getState(long value){
         Connection dbCon = MysqlHelper.connect();
         String state = "";
-
         List<UserModel> userModelList = new ArrayList<UserModel>();
-
         try {
             String query = "SELECT * FROM User Where  id = ?";
 
@@ -127,7 +254,78 @@ public class User {
         catch (SQLException e){
             e.printStackTrace();
         }
+        return state;
+    }
 
+    public static long getWeight(long value){
+        Connection dbCon = MysqlHelper.connect();
+        long weight = 0;
+        List<UserModel> userModelList = new ArrayList<UserModel>();
+        try {
+            String query = "SELECT * FROM User Where  id = ?";
+
+            PreparedStatement preparedStatement = dbCon.prepareStatement(query);
+            preparedStatement.setLong(1, value);
+
+            ResultSet res = preparedStatement.executeQuery();
+            if(res.next()){
+                weight = res.getLong("weight");
+            }
+            dbCon.close();
+
+            return weight;
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return weight;
+    }
+
+    public static long getHeight(long value){
+        Connection dbCon = MysqlHelper.connect();
+        long weight = 0;
+        List<UserModel> userModelList = new ArrayList<UserModel>();
+        try {
+            String query = "SELECT * FROM User Where  id = ?";
+
+            PreparedStatement preparedStatement = dbCon.prepareStatement(query);
+            preparedStatement.setLong(1, value);
+
+            ResultSet res = preparedStatement.executeQuery();
+            if(res.next()){
+                weight = res.getLong("height");
+            }
+            dbCon.close();
+
+            return weight;
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return weight;
+    }
+
+    public static String getGender(long value){
+        Connection dbCon = MysqlHelper.connect();
+        String state = "";
+        List<UserModel> userModelList = new ArrayList<UserModel>();
+        try {
+            String query = "SELECT * FROM User Where  id = ?";
+
+            PreparedStatement preparedStatement = dbCon.prepareStatement(query);
+            preparedStatement.setLong(1, value);
+
+            ResultSet res = preparedStatement.executeQuery();
+            if(res.next()){
+                state = res.getString("gender").toString();
+            }
+            dbCon.close();
+
+            return state;
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
         return state;
     }
 
@@ -176,6 +374,5 @@ public class User {
         }
         return result;
     }
-
 
 }

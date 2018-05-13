@@ -26,8 +26,45 @@ public class RequestState implements BotState
     @Override
     public void validate(Update update)
     {
-        if(update.getMessage().getText().length() < 40)
-        {
+        if(update.getMessage().getText().length() < 40) {
+            User user = new User();
+            user.updateColumnBloodType(update.getMessage().getText(), chatId);
+            long weight = user.getWeight(chatId);
+            long height = user.getHeight(chatId);
+            String gender = user.getGender(chatId);
+            long bmi = weight * 10000 / height / height;
+            long category;
+            if (gender.equals("زن"))
+            {
+                if (bmi < 18)
+                {
+                    category = 1;
+                }
+                else if (bmi < 30)
+                {
+                    category = 2;
+                }
+                else
+                {
+                    category = 3;
+                }
+            }
+            else
+            {
+                if (bmi < 18)
+                {
+                    category = 4;
+                }
+                else if (bmi < 30)
+                {
+                    category = 5;
+                }
+                else
+                {
+                    category = 6;
+                }
+            }
+            user.updateColumnCategory(category, chatId);
             String message = "سرویس مورد نظر خود را انتخاب کنید.";
             String keyboardMessage = "برنامه غذایی,نکات سلامتی,برنامه ورزشی در خانه,برنامه ورزشی در باشگاه,بازگشت به صفحه اصلی";
             this.changeState("request");

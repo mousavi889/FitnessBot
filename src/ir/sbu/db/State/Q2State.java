@@ -28,6 +28,8 @@ public class Q2State implements BotState
     {
         if(update.getMessage().getText().length() < 20)
         {
+            User user = new User();
+            user.updateColumnGender (update.getMessage().getText() , chatId);
             String message = " وزن خود را وارد کنید.";
             String keyboardMessage = "";
             this.changeState("q2");

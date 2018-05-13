@@ -28,6 +28,8 @@ public class Q3State implements BotState
     {
         if(update.getMessage().getText().length() < 20)
         {
+            User user = new User();
+            user.updateColumnWeight (Long.parseLong(update.getMessage().getText()) , chatId);
             String message = "قد خود را وارد کنید.";
             String keyboardMessage = "";
             this.changeState("q3");
